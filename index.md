@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -32,10 +31,6 @@
                        scrt2URL: 'https://axaus-travel--uatt.sandbox.my.salesforce-scrt.com'
                    }
                );
-               // Se tiver ?openChat=true na URL, tenta abrir o chat
-               if (shouldOpenChat()) {
-                   tryOpenChat();
-               }
            } catch (err) {
                console.error('Error loading Embedded Messaging: ', err);
            }
@@ -44,17 +39,16 @@
            const params = new URLSearchParams(window.location.search);
            return params.get('openChat') === 'true';
        }
-       function tryOpenChat() {
+       // Evento do Salesforce Embedded Messaging
+       window.addEventListener('onEmbeddedMessagingReady', function () {
            if (
+               shouldOpenChat() &&
                window.embeddedservice_bootstrap &&
                typeof embeddedservice_bootstrap.open === 'function'
            ) {
                embeddedservice_bootstrap.open();
-           } else {
-               // Aguarda o bootstrap estar pronto
-               setTimeout(tryOpenChat, 500);
            }
-       }
+       });
 </script>
 <script
        type="text/javascript"
