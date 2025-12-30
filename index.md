@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -5,19 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<!-- Salesforce Embedded Messaging -->
 <script type="text/javascript">
-   // 🔹 Parâmetro da URL
    const urlParams = new URLSearchParams(window.location.search);
    const openChat = urlParams.get('openChat') === 'true';
    function initEmbeddedMessaging() {
        try {
            embeddedservice_bootstrap.settings.language = 'en_US';
-           // ✅ ÚNICA forma suportada de auto-open
-           if (openChat) {
-               embeddedservice_bootstrap.settings.prechatDisplay = 'expanded';
-               sessionStorage.setItem('chatOpened', 'true');
-           }
            embeddedservice_bootstrap.init(
                '00DOu000001GFQj',
                'USTI_Live_Agent',
@@ -30,8 +24,18 @@
            console.error('Error loading Embedded Messaging:', err);
        }
    }
+   window.addEventListener('onEmbeddedMessagingReady', function () {
+       if (
+           openChat &&
+           window.embeddedservice_bootstrap &&
+           embeddedservice_bootstrap.utilAPI &&
+           typeof embeddedservice_bootstrap.utilAPI.launchChat === 'function'
+       ) {
+           embeddedservice_bootstrap.utilAPI.launchChat();
+           console.log('✅ Chat aberto automaticamente via utilAPI');
+       }
+   });
 </script>
-<!-- Loader oficial (NÃO TRUNCAR) -->
 <script
    type="text/javascript"
    src="https://axaus-travel--uatt.sandbox.my.site.com/ESWUSTILiveAgent1716401253738/assets/js/bootstrap.min.js"
