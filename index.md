@@ -10,14 +10,39 @@
        // 🔹 Lê parâmetro da URL
        const urlParams = new URLSearchParams(window.location.search);
        const openChat = urlParams.get('openChat') === 'true';
+
+       if (!shouldAutoOpenChat) {
+		console.log("Auto-open desativado para esta URL");
+		  return;
+		}
+		
+		if (sessionStorage.getItem("chatOpened")) {
+		  return;
+		}
+		
+        let attempts = 0;
+        const maxAttempts = 10;
+
+        const tryLaunchChat = () => {
+          attempts++;
+          try {
+            embeddedservice_bootstrap.utilAPI.launchChat();
+            console.log("✅ Chat aberto automaticamente");
+          } catch (err) {
+            if (attempts < maxAttempts) {
+              setTimeout(tryLaunchChat, 500);
+            } else {
+              console.warn("❌ Não foi possível abrir o chat automaticamente");
+            }
+          }
+        };
+
+        setTimeout(tryLaunchChat, 500);
+	  });
+       
        function initEmbeddedMessaging() {
            try {
                embeddedservice_bootstrap.settings.language = 'en_US';
-               // 🔥 ÚNICA forma confiável de auto-open
-               // O chat já nasce aberto
-               if (openChat) {
-                   embeddedservice_bootstrap.settings.prechatDisplay = 'expanded';
-               }
                embeddedservice_bootstrap.init(
                    '00DOu000001GFQj',
                    'USTI_Live_Agent',
