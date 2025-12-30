@@ -1,28 +1,23 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Teste Chat Salesforce</title>
+<title>USTI – Teste Chat Salesforce</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-       body {
-           font-family: Arial, Helvetica, sans-serif;
-           margin: 0;
-           padding: 40px;
-           background-color: #f5f5f5;
-       }
-       h1 {
-           color: #333;
-       }
-       p {
-           color: #555;
-       }
-</style>
 </head>
 <body>
+<!-- Salesforce Embedded Messaging -->
 <script type="text/javascript">
+       // 🔹 Lê parâmetro da URL
+       const urlParams = new URLSearchParams(window.location.search);
+       const openChat = urlParams.get('openChat') === 'true';
        function initEmbeddedMessaging() {
            try {
                embeddedservice_bootstrap.settings.language = 'en_US';
+               // 🔥 ÚNICA forma confiável de auto-open
+               // O chat já nasce aberto
+               if (openChat) {
+                   embeddedservice_bootstrap.settings.prechatDisplay = 'expanded';
+               }
                embeddedservice_bootstrap.init(
                    '00DOu000001GFQj',
                    'USTI_Live_Agent',
@@ -35,21 +30,8 @@
                console.error('Error loading Embedded Messaging: ', err);
            }
        }
-       function shouldOpenChat() {
-           const params = new URLSearchParams(window.location.search);
-           return params.get('openChat') === 'true';
-       }
-       // Evento do Salesforce Embedded Messaging
-       window.addEventListener('onEmbeddedMessagingReady', function () {
-           if (
-               shouldOpenChat() &&
-               window.embeddedservice_bootstrap &&
-               typeof embeddedservice_bootstrap.open === 'function'
-           ) {
-               embeddedservice_bootstrap.open();
-           }
-       });
 </script>
+<!-- Loader oficial -->
 <script
        type="text/javascript"
        src="https://axaus-travel--uatt.sandbox.my.site.com/ESWUSTILiveAgent1716401253738/assets/js/bootstrap.min.js"
