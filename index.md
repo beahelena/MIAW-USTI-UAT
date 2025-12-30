@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -32,9 +31,6 @@
 </style>
 </head>
 <body>
-<h1>Teste do Chat Salesforce</h1>
-<p>Esta página serve apenas para validar o Embedded Messaging.</p>
-<!-- Salesforce Embedded Messaging -->
 <script type="text/javascript">
 
         function initEmbeddedMessaging() {
