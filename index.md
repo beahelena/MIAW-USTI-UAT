@@ -6,10 +6,26 @@
 </head>
 <body>
 <script>
- const OpenChat =
+ const openChat =
    new URLSearchParams(window.location.search).get("openChat") === "true";
- window.addEventListener("onEmbeddedMessagingReady", function () {
-   if (!OpenChat) return;
+ function initEmbeddedMessaging() {
+   try {
+     embeddedservice_bootstrap.settings.language = "pt-BR";
+     embeddedservice_bootstrap.init(
+       "00DOu000001GFQj",
+       "USTI_Live_Agent",
+       "https://axaus-travel--uatt.sandbox.my.site.com/ESWUSTILiveAgent1716401253738",
+       {
+         scrt2URL:
+           "https://axaus-travel--uatt.sandbox.my.salesforce-scrt.com"
+       }
+     );
+   } catch (e) {
+     console.error(e);
+   }
+ }
+ window.addEventListener("onEmbeddedMessagingReady", () => {
+   if (!openChat) return;
    setTimeout(() => {
      embeddedservice_bootstrap.utilAPI.launchChat();
    }, 500);
