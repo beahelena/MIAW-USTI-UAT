@@ -10,7 +10,7 @@
    new URLSearchParams(window.location.search).get("openChat") === "true";
  function initEmbeddedMessaging() {
    try {
-     embeddedservice_bootstrap.settings.language = "pt-BR";
+     embeddedservice_bootstrap.settings.language = "en-US";
      embeddedservice_bootstrap.init(
        "00DOu000001GFQj",
        "USTI_Live_Agent",
